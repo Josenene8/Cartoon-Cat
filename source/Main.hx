@@ -71,9 +71,11 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
-		#if !cpp
-		framerate = 60;
-		#end
+		#if android
+    gameWidth = 1280;
+    gameHeight = 720;
+    framerate = 60;
+    #end
 		
 		initialState = TitleState;
 		
