@@ -61,7 +61,7 @@ class OptionsMenu extends MusicBeatState
 			#end
 			new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain.")
 		]),
-		new OptionCatagory("Mobile settings", [
+		new OptionCategory("Mobile settings", [
 			new CustomControls("Customize your controls for your android device")
 		])
 	];
