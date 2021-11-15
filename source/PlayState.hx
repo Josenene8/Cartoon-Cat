@@ -53,6 +53,7 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+import ui.Mobilecontrols;
 
 #if windows
 import Discord.DiscordClient;
@@ -156,6 +157,7 @@ class PlayState extends MusicBeatState
 	var currentFrames:Int = 0;
 
 	var songName:FlxText;
+	var daninnocentTxt:FlxText;
 
 	var fc:Bool = true;
 
@@ -197,6 +199,10 @@ class PlayState extends MusicBeatState
 	public function removeObject(object:FlxBasic) { remove(object); }
 
 	private static var deathReason:String;
+	
+	#if mobileC
+	var mcontrols:Mobilecontrols; 
+	#end
 
 	override public function create()
 	{
@@ -448,6 +454,12 @@ class PlayState extends MusicBeatState
 		if (offsetTesting)
 			scoreTxt.x += 300;												  
 		add(scoreTxt);
+		
+		daninnocentTxt = new FlxText(876, 648, 348);
+    daninnocentTxt.text = "PORTED BY DANINNOCENT";
+    daninnocentTxt.setFormat(Paths.font("vcr.ttf"), 30, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
+    daninnocentTxt.scrollFactor.set();
+    add(daninnocentTxt);
 
 		iconP1 = new HealthIcon(SONG.player1, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
@@ -465,11 +477,35 @@ class PlayState extends MusicBeatState
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
+		daninnocentTxt.cameras = [camHUD];
 		if (FlxG.save.data.songPosition)
 		{
 			songPosBG.cameras = [camHUD];
 			songPosBar.cameras = [camHUD];
 		}
+		
+		#if mobileC
+			mcontrols = new Mobilecontrols();
+			switch (mcontrols.mode)
+			{
+				case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
+					controls.setVirtualPad(mcontrols._virtualPad, FULL, NONE);
+				case HITBOX:
+					controls.setHitBox(mcontrols._hitbox);
+				default:
+			}
+			trackedinputs = controls.trackedinputs;
+			controls.trackedinputs = [];
+
+			var camcontrol = new FlxCamera();
+			FlxG.cameras.add(camcontrol);
+			camcontrol.bgColor.alpha = 0;
+			mcontrols.cameras = [camcontrol];
+
+			mcontrols.visible = false;
+
+			add(mcontrols);
+		#end
 
 		startingSong = true;
 		
@@ -502,6 +538,10 @@ class PlayState extends MusicBeatState
 
 	function startCountdown():Void
 	{
+	  #if mobileC
+		mcontrols.visible = true;
+		#end
+		
 		inCutscene = false;
 		camHUD.visible = true;
 
@@ -1431,6 +1471,10 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
+		#if mobileC
+		mcontrols.visible = true;
+		#end
+		
 		if (FlxG.save.data.fpsCap > 290)
 			(cast (Lib.current.getChildAt(0), Main)).setFPSCap(290);
 
