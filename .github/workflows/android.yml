@@ -69,8 +69,8 @@ jobs:
           
       - name: funni build logs
         run: |
-        haxelib run lime setup android
-        haxelib run lime build android
+          haxelib run lime setup android
+          haxelib run lime build android
           
       - uses: actions/upload-artifact@v2
         with:
