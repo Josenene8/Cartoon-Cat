@@ -74,23 +74,18 @@ class Main extends Sprite
 		#if !cpp
 		framerate = 60;
 		#end
-
-		#if html5
-		initialState = PiracyState;
-		#else
-		#if cpp
-		initialState = Caching;
-		#end
-		#end
+		
+		initialState = TitleState;
+		
 
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 		addChild(game);
 
-		#if !mobile
+  	//	#if !mobile
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
-		#end
+	  //	#end
 	}
 
 	var game:FlxGame;
