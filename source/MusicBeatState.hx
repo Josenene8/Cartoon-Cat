@@ -16,6 +16,10 @@ import flixel.util.FlxTimer;
 
 import openfl.utils.Assets;
 import openfl.utils.AssetType;
+#if mobileC
+import ui.FlxVirtualPad;
+import flixel.input.actions.FlxActionInput;
+#end
 
 class MusicBeatState extends FlxUIState
 {
