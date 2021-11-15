@@ -2411,9 +2411,12 @@ class PlayState extends MusicBeatState
 		bg.cameras = [camHUD];
 		add(bg);
 		
-		var video:MP4Handler = new MP4Handler();
-
-		video.playMP4(Paths.video(name));
+		var video:VideoPlayer = new VideoPlayer(Paths.video(name));
+		video.ownCamera();
+		video.setGraphicSize(Std.int(video.width * 2));
+		video.updateHitbox();
+		add(video);
+		video.play();
 
 		new FlxTimer().start(1.2, function(tmr:FlxTimer)
 		{
@@ -2422,6 +2425,7 @@ class PlayState extends MusicBeatState
 
 		video.finishCallback = function()
 		{
+		  remove(video);
 			onComplete();
 		}
 	}
