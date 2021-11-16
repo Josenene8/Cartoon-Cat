@@ -77,10 +77,10 @@ class Main extends Sprite
 		}
 
 		#if android
-    gameWidth = 1280;
-    gameHeight = 720;
-    framerate = 60;
-    #end
+                gameWidth = 1280;
+                gameHeight = 720;
+                framerate = 60;
+                #end
 		
 		initialState = TitleState;
 		
@@ -88,11 +88,11 @@ class Main extends Sprite
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 		addChild(game);
 
-  	//	#if !mobile
+  	        //	#if !mobile
 		fpsCounter = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
-	  //	#end
+	        //	#end
 	}
 
 	var game:FlxGame;
