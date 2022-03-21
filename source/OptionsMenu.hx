@@ -24,12 +24,6 @@ class OptionsMenu extends MusicBeatState
 	var curSelected:Int = 0;
 
 	var options:Array<OptionCategory> = [
-		new OptionCategory("Custom", [
-			new NoteSplashes("Splash appears when getting a 'Sick'."),
-			new NoteColor("Toggle between Vanilla/Gray note colors."),
-			new DynamicCam("If camera is dynamic, it will follow animations."),
-			new MiddleScrollOption("Put your lane in the center or on the right.")
-		]),
 		new OptionCategory("Gameplay", [
 			new DFJKOption(controls),
 			new DownscrollOption("Change the layout of the strumline."),
@@ -38,6 +32,7 @@ class OptionsMenu extends MusicBeatState
 			#if desktop
 			new FPSCapOption("Cap your FPS"),
 			#end
+			new ScrollSpeedOption("Change your scroll speed (1 = Chart dependent)"),
 			new AccuracyDOption("Change how accuracy is calculated. (Accurate = Simple, Complex = Milisecond Based)"),
 			new ResetButtonOption("Toggle pressing R to gameover."),
 			// new OffsetMenu("Get a note offset based off of your inputs!"),
@@ -59,8 +54,16 @@ class OptionsMenu extends MusicBeatState
 		new OptionCategory("Misc", [
 			#if desktop
 			new FPSOption("Toggle the FPS Counter"),
+			new ReplayOption("View replays"),
 			#end
-			new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain.")
+			new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain."),
+			new WatermarkOption("Enable and disable all watermarks from the engine."),
+			new BotPlay("Showcase your charts and mods with autoplay.")
+		]),
+
+		new OptionCategory("Mobile settings", [
+			new CustomControls("edit a control"),
+			new About("about android port")
 		])
 		
 	];
@@ -76,7 +79,7 @@ class OptionsMenu extends MusicBeatState
 	override function create()
 	{
 		instance = this;
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menuBG"));
+		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menuDesat"));
 
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
@@ -113,10 +116,15 @@ class OptionsMenu extends MusicBeatState
 		FlxTween.tween(versionShit,{y: FlxG.height - 18},2,{ease: FlxEase.elasticInOut});
 		FlxTween.tween(blackBorder,{y: FlxG.height - 18},2, {ease: FlxEase.elasticInOut});
 
+		#if mobileC
+		addVirtualPad(UP_DOWN, A_B);
+		#end
+
 		super.create();
 	}
 
 	var isCat:Bool = false;
+	
 
 	override function update(elapsed:Float)
 	{

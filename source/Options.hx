@@ -96,28 +96,6 @@ class DFJKOption extends Option
 	}
 }
 
-class DynamicCam extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-		description = desc;
-	}
-	
-	public override function press():Bool
-	{
-		FlxG.save.data.dynamicCam = !FlxG.save.data.dynamicCam;
-			
-		display = updateDisplay();
-		return true;
-	}
-	
-	private override function updateDisplay():String
-	{
-		return FlxG.save.data.dynamicCam ? "Dynamic Camera" : "Standard Camera";
-	}
-}
-
 class CpuStrums extends Option
 {
 	public function new(desc:String)
@@ -136,78 +114,46 @@ class CpuStrums extends Option
 
 	private override function updateDisplay():String
 	{
-		return FlxG.save.data.cpuStrums ? "Light CPU Strums" : "CPU Strums stay static";
+		return  FlxG.save.data.cpuStrums ? "Light CPU Strums" : "CPU Strums stay static";
 	}
 
 }
-
-class NoteSplashes extends Option
+class CustomControls extends Option
 {
 	public function new(desc:String)
 	{
 		super();
 		description = desc;
 	}
-
 	public override function press():Bool
 	{
-		FlxG.save.data.noteSplashes = !FlxG.save.data.noteSplashes;
-		
-		display = updateDisplay();
+		FlxG.switchState(new options.CustomControlsState());
 		return true;
 	}
-
 	private override function updateDisplay():String
 	{
-		return (FlxG.save.data.noteSplashes ? "Note Splashes" : "No Note Splashes");
+		return "controls";
 	}
 
 }
-
-class NoteColor extends Option
+class About extends Option
 {
 	public function new(desc:String)
 	{
 		super();
 		description = desc;
 	}
-
 	public override function press():Bool
 	{
-		FlxG.save.data.noteColor = !FlxG.save.data.noteColor;
-		
-		display = updateDisplay();
+		FlxG.switchState(new options.AboutState());
 		return true;
 	}
-
 	private override function updateDisplay():String
 	{
-		return "Note Color " + (!FlxG.save.data.noteColor ? "Vanilla" : "Gray");
+		return "About";
 	}
 
 }
-
-class MiddleScrollOption extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-		description = desc;
-	}
-
-	public override function press():Bool
-	{
-		FlxG.save.data.middlescroll = !FlxG.save.data.middlescroll;
-		display = updateDisplay();
-		return true;
-	}
-
-	private override function updateDisplay():String
-	{
-		return "Middle Scroll " + (FlxG.save.data.middlescroll ? "On" : "Off");
-	}
-}
-
 class DownscrollOption extends Option
 {
 	public function new(desc:String)
@@ -479,6 +425,55 @@ class FPSCapOption extends Option
 	}
 }
 
+
+class ScrollSpeedOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+		acceptValues = true;
+	}
+
+	public override function press():Bool
+	{
+		return false;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Scroll Speed";
+	}
+
+	override function right():Bool {
+		FlxG.save.data.scrollSpeed += 0.1;
+
+		if (FlxG.save.data.scrollSpeed < 1)
+			FlxG.save.data.scrollSpeed = 1;
+
+		if (FlxG.save.data.scrollSpeed > 4)
+			FlxG.save.data.scrollSpeed = 4;
+		return true;
+	}
+
+	override function getValue():String {
+		return "Current Scroll Speed: " + HelperFunctions.truncateFloat(FlxG.save.data.scrollSpeed,1);
+	}
+
+	override function left():Bool {
+		FlxG.save.data.scrollSpeed -= 0.1;
+
+		if (FlxG.save.data.scrollSpeed < 1)
+			FlxG.save.data.scrollSpeed = 1;
+
+		if (FlxG.save.data.scrollSpeed > 4)
+			FlxG.save.data.scrollSpeed = 4;
+
+		return true;
+	}
+}
+
+
 class RainbowFPSOption extends Option
 {
 	public function new(desc:String)
@@ -519,6 +514,27 @@ class NPSDisplayOption extends Option
 	private override function updateDisplay():String
 	{
 		return "NPS Display " + (!FlxG.save.data.npsDisplay ? "off" : "on");
+	}
+}
+
+class ReplayOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+	
+	public override function press():Bool
+	{
+		trace("switch");
+		FlxG.switchState(new LoadReplayState());
+		return false;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Load replays";
 	}
 }
 
@@ -564,6 +580,28 @@ class CustomizeGameplay extends Option
 	}
 }
 
+class WatermarkOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		Main.watermarks = !Main.watermarks;
+		FlxG.save.data.watermark = Main.watermarks;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Watermarks " + (Main.watermarks ? "on" : "off");
+	}
+}
+
 class OffsetMenu extends Option
 {
 	public function new(desc:String)
@@ -591,4 +629,23 @@ class OffsetMenu extends Option
 	{
 		return "Time your offset";
 	}
+}
+class BotPlay extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+	
+	public override function press():Bool
+	{
+		FlxG.save.data.botplay = !FlxG.save.data.botplay;
+		trace('BotPlay : ' + FlxG.save.data.botplay);
+		display = updateDisplay();
+		return true;
+	}
+	
+	private override function updateDisplay():String
+		return "BotPlay " + (FlxG.save.data.botplay ? "on" : "off");
 }

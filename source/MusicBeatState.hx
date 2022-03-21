@@ -1,6 +1,5 @@
 package;
 
-import flixel.system.FlxAssets.FlxSoundAsset;
 #if windows
 import Discord.DiscordClient;
 #end
@@ -13,9 +12,10 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxUIState;
 import flixel.math.FlxRect;
 import flixel.util.FlxTimer;
-
-import openfl.utils.Assets;
-import openfl.utils.AssetType;
+#if mobileC
+import ui.FlxVirtualPad;
+#end
+import flixel.input.actions.FlxActionInput;
 
 class MusicBeatState extends FlxUIState
 {
@@ -26,11 +26,37 @@ class MusicBeatState extends FlxUIState
 	private var curBeat:Int = 0;
 	private var controls(get, never):Controls;
 
-	// menu stuff
-	public static var curMusic:String = '';
-
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
+	
+
+	#if mobileC
+	var _virtualpad:FlxVirtualPad;
+
+	var trackedinputs:Array<FlxActionInput> = [];
+
+	// adding virtualpad to state
+	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
+		_virtualpad = new FlxVirtualPad(DPad, Action);
+		_virtualpad.alpha = 0.75;
+		add(_virtualpad);
+		controls.setVirtualPad(_virtualpad, DPad, Action);
+		trackedinputs = controls.trackedinputs;
+		controls.trackedinputs = [];
+
+		#if android
+		controls.addAndroidBack();
+		#end
+	}
+
+	override function destroy() {
+		controls.removeFlxInput(trackedinputs);
+
+		super.destroy();
+	}
+	#else
+	public function addVirtualPad(?DPad, ?Action){};
+	#end
 
 	override function create()
 	{
@@ -126,11 +152,5 @@ class MusicBeatState extends FlxUIState
 		#else
 		FlxG.openURL(schmancy);
 		#end
-	}
-
-	public function playMusic(name:String, volume:Float = 1)
-	{
-		curMusic = name;
-		FlxG.sound.playMusic(Paths.music(name), volume);
 	}
 }
