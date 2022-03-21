@@ -21,7 +21,6 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import io.newgrounds.NG;
 import lime.app.Application;
 import openfl.Assets;
 
@@ -147,7 +146,7 @@ class TitleState extends MusicBeatState
 		logoBl.setGraphicSize(Std.int(logoBl.width * 0.55));
 		logoBl.updateHitbox();
 
-		cc = new FlxSprite();
+		var cc:FlxSprite = new FlxSprite();
 		cc.frames = Paths.getSparrowAtlas('title/sussyCC');
 		cc.antialiasing = true;
 		cc.animation.addByPrefix('idle', 'animation', 24);
