@@ -68,6 +68,11 @@ class GameOverSubstate extends MusicBeatSubstate
 		FlxG.camera.flash(FlxColor.RED, 1.2);
 
 		char.playAnim('firstDeath', true);
+		
+		#if mobileC
+		addVirtualPad(NONE, A_B);
+		#end
+
 	}
 
 	override function update(elapsed:Float)
