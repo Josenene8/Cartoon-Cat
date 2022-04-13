@@ -125,7 +125,7 @@ class TitleState extends MusicBeatState
 			transIn = FlxTransitionableState.defaultTransIn;
 			transOut = FlxTransitionableState.defaultTransOut;
 			
-			playMusic('freakyMenu', 0);
+			
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
 		}
 
