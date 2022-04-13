@@ -1489,7 +1489,7 @@ class PlayState extends MusicBeatState
 
 		if (offsetTesting)
 		{
-			playMusic('freakyMenu');
+			
 			offsetTesting = false;
 			LoadingState.loadAndSwitchState(new OptionsMenu());
 			FlxG.save.data.offset = offsetTest;
@@ -1504,7 +1504,7 @@ class PlayState extends MusicBeatState
 
 				if (storyPlaylist.length <= 0)
 				{
-					playMusic('freakyMenu');
+					
 
 					transIn = FlxTransitionableState.defaultTransIn;
 					transOut = FlxTransitionableState.defaultTransOut;
@@ -2407,9 +2407,9 @@ class PlayState extends MusicBeatState
 		bg.cameras = [camHUD];
 		add(bg);
 		
-		var video:MP4Handler = new MP4Handler();
+		
 
-		video.playMP4(Paths.video(name));
+		
 
 		new FlxTimer().start(1.2, function(tmr:FlxTimer)
 		{
