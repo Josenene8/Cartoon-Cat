@@ -1,41 +1,41 @@
-package;
+//package;
 
-import flixel.FlxG;
-import flixel.util.FlxSignal;
-import flixel.util.FlxTimer;
-import io.newgrounds.NG;
-import io.newgrounds.components.ScoreBoardComponent.Period;
-import io.newgrounds.objects.Medal;
-import io.newgrounds.objects.Score;
-import io.newgrounds.objects.ScoreBoard;
-import io.newgrounds.objects.events.Response;
-import io.newgrounds.objects.events.Result.GetCurrentVersionResult;
-import io.newgrounds.objects.events.Result.GetVersionResult;
-import lime.app.Application;
-import openfl.display.Stage;
+//import flixel.FlxG;
+//import flixel.util.FlxSignal;
+//import flixel.util.FlxTimer;
+//import io.newgrounds.NG;
+//import io.newgrounds.components.ScoreBoardComponent.Period;
+//import io.newgrounds.objects.Medal;
+//import io.newgrounds.objects.Score;
+//import io.newgrounds.objects.ScoreBoard;
+//import io.newgrounds.objects.events.Response;
+//import io.newgrounds.objects.events.Result.GetCurrentVersionResult;
+//import io.newgrounds.objects.events.Result.GetVersionResult;
+//import lime.app.Application;
+//import openfl.display.Stage;
 
-using StringTools;
+//using StringTools;
 
 /**
  * MADE BY GEOKURELI THE LEGENED GOD HERO MVP
  */
-class NGio
-{
-	public static var isLoggedIn:Bool = false;
-	public static var scoreboardsLoaded:Bool = false;
+//class NGio
+//{
+//	public static var isLoggedIn:Bool = false;
+//	public static var scoreboardsLoaded:Bool = false;
 
-	public static var scoreboardArray:Array<Score> = [];
+//	public static var scoreboardArray:Array<Score> = [];
 
-	public static var ngDataLoaded(default, null):FlxSignal = new FlxSignal();
-	public static var ngScoresLoaded(default, null):FlxSignal = new FlxSignal();
+//	public static var ngDataLoaded(default, null):FlxSignal = new FlxSignal();
+//	public static var ngScoresLoaded(default, null):FlxSignal = new FlxSignal();
 
-	public static var GAME_VER:String = "";
-	public static var GAME_VER_NUMS:String = '';
-	public static var gotOnlineVer:Bool = false;
+//	public static var GAME_VER:String = "";
+//	public static var GAME_VER_NUMS:String = '';
+//	public static var gotOnlineVer:Bool = false;
 
-	public static function noLogin(api:String)
-	{
-		trace('INIT NOLOGIN');
+//	public static function noLogin(api:String)
+//	{
+		/*trace('INIT NOLOGIN');
 		GAME_VER = "v" + Application.current.meta.get('version');
 
 		if (api.length != 0)
@@ -75,7 +75,7 @@ class NGio
 			/* a session_id was found in the loadervars, this means the user is playing on newgrounds.com
 			 * and we should login shortly. lets wait for that to happen
 			 */
-			trace("attempting login");
+			/*trace("attempting login");
 			NG.core.onLogin.add(onNGLogin);
 		}
 		else
@@ -83,11 +83,11 @@ class NGio
 			/* They are NOT playing on newgrounds.com, no session id was found. We must start one manually, if we want to.
 			 * Note: This will cause a new browser window to pop up where they can log in to newgrounds
 			 */
-			NG.core.requestLogin(onNGLogin);
-		}
-	}
+//			NG.core.requestLogin(onNGLogin);
+//		}
+//	}
 
-	function onNGLogin():Void
+	/*function onNGLogin():Void
 	{
 		trace('logged in! user:${NG.core.user.name}');
 		isLoggedIn = true;
@@ -118,11 +118,11 @@ class NGio
 			if (!unlockingMedal.unlocked)
 				unlockingMedal.sendUnlock();
 		 */
-	}
+//	}
 
 	// --- SCOREBOARDS
-	function onNGBoardsFetch():Void
-	{
+//	function onNGBoardsFetch():Void
+//	{
 		/*
 			// Reading medal info
 			for (id in NG.core.scoreBoards.keys())
@@ -140,30 +140,30 @@ class NGio
 
 		// add an update listener so we know when we get the new scores
 		// board.onUpdate.add(onNGScoresFetch);
-		trace("shoulda got score by NOW!");
+//		trace("shoulda got score by NOW!");
 		// board.requestScores(20);// get the best 10 scores ever logged
 		// more info on scores --- http://www.newgrounds.io/help/components/#scoreboard-getscores
-	}
+//	}
 
-	inline static public function postScore(score:Int = 0, song:String)
-	{
-		if (isLoggedIn)
-		{
-			for (id in NG.core.scoreBoards.keys())
-			{
-				var board = NG.core.scoreBoards.get(id);
+//	inline static public function postScore(score:Int = 0, song:String)
+//	{
+//		if (isLoggedIn)
+//		{
+//			for (id in NG.core.scoreBoards.keys())
+//			{
+//				var board = NG.core.scoreBoards.get(id);
 
-				if (song == board.name)
-				{
-					board.postScore(score, "Uhh meow?");
-				}
+//				if (song == board.name)
+//				{
+//					board.postScore(score, "Uhh meow?");
+//				}
 
 				// trace('loaded scoreboard id:$id, name:${board.name}');
-			}
-		}
-	}
+//			}
+//		}
+//	}
 
-	function onNGScoresFetch():Void
+	/*function onNGScoresFetch():Void
 	{
 		scoreboardsLoaded = true;
 
@@ -180,9 +180,9 @@ class NGio
 		// board.postScore(HighScore.score);
 
 		// NGio.scoreboardArray = NG.core.scoreBoards.get(8004).scores;
-	}
+//	}
 
-	inline static public function logEvent(event:String)
+	/*inline static public function logEvent(event:String)
 	{
 		NG.core.calls.event.logEvent(event).send();
 		trace('should have logged: ' + event);
