@@ -528,7 +528,7 @@ class ReplayOption extends Option
 	public override function press():Bool
 	{
 		trace("switch");
-		FlxG.switchState(new LoadReplayState());
+		
 		return false;
 	}
 
@@ -590,15 +590,15 @@ class WatermarkOption extends Option
 
 	public override function press():Bool
 	{
-		Main.watermarks = !Main.watermarks;
-		FlxG.save.data.watermark = Main.watermarks;
+		
+		
 		display = updateDisplay();
 		return true;
 	}
 
 	private override function updateDisplay():String
 	{
-		return "Watermarks " + (Main.watermarks ? "on" : "off");
+//		return "Watermarks " + (Main.watermarks ? "on" : "off");
 	}
 }
 
