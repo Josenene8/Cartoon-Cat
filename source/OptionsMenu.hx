@@ -25,7 +25,7 @@ class OptionsMenu extends MusicBeatState
 
 	var options:Array<OptionCategory> = [
 		new OptionCategory("Custom", [
-	//		new NoteSplashes("Splash appears when getting a 'Sick'."),
+			new NoteSplashes("Splash appears when getting a 'Sick'."),
 			new NoteColor("Toggle between Vanilla/Gray note colors."),
 			new DynamicCam("If camera is dynamic, it will follow animations."),
 			new MiddleScrollOption("Put your lane in the center or on the right.")
@@ -66,7 +66,6 @@ class OptionsMenu extends MusicBeatState
 		new OptionCategory("Mobile settings", [
 			new CustomControls("edit a control"),
 			new About("about android port")
-			
 		])
 		
 	];
@@ -118,8 +117,8 @@ class OptionsMenu extends MusicBeatState
 
 		FlxTween.tween(versionShit,{y: FlxG.height - 18},2,{ease: FlxEase.elasticInOut});
 		FlxTween.tween(blackBorder,{y: FlxG.height - 18},2, {ease: FlxEase.elasticInOut});
-                
-		#if mobileC
+		
+                #if mobileC
 		addVirtualPad(UP_DOWN, A_B);
 		#end
 
