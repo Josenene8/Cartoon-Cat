@@ -1,16 +1,16 @@
-package;
+//package;
 
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.FlxState;
-import flixel.util.FlxColor;
-import flixel.util.FlxTimer;
-import openfl.events.Event;
-import vlc.VlcBitmap;
+//import flixel.FlxG;
+//import flixel.FlxSprite;
+//import flixel.FlxState;
+//import flixel.util.FlxColor;
+//import flixel.util.FlxTimer;
+//import openfl.events.Event;
+//import vlc.VlcBitmap;
 
 // THIS IS FOR TESTING
 // DONT STEAL MY CODE >:(
-class MP4Handler
+/*class MP4Handler
 {
 	public var finishCallback:Void->Void;
 	public var stateCallback:FlxState;
