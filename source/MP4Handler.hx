@@ -10,9 +10,9 @@
 
 // THIS IS FOR TESTING
 // DONT STEAL MY CODE >:(
-/*class MP4Handler
-{
-	public var finishCallback:Void->Void;
+//class MP4Handler
+//{
+	/*public var finishCallback:Void->Void;
 	public var stateCallback:FlxState;
 
 	public var bitmap:VlcBitmap;
