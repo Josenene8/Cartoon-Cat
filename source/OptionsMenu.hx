@@ -25,7 +25,7 @@ class OptionsMenu extends MusicBeatState
 
 	var options:Array<OptionCategory> = [
 		new OptionCategory("Custom", [
-			new NoteSplashes("Splash appears when getting a 'Sick'."),
+	//		new NoteSplashes("Splash appears when getting a 'Sick'."),
 			new NoteColor("Toggle between Vanilla/Gray note colors."),
 			new DynamicCam("If camera is dynamic, it will follow animations."),
 			new MiddleScrollOption("Put your lane in the center or on the right.")
