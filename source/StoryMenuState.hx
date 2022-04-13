@@ -36,8 +36,6 @@ class StoryMenuState extends MusicBeatState
 
     override function create() 
     {
-        if (!FlxG.sound.music.playing || MusicBeatState.curMusic != 'spookyMenu')
-            playMusic('spookyMenu');
 
         var ui_tex = Paths.getSparrowAtlas('storymenu/cool');
 
