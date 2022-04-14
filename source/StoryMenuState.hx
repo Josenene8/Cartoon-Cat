@@ -260,7 +260,7 @@ class StoryMenuState extends MusicBeatState
             FlxG.camera.fade(FlxColor.BLACK, 1.6, false, function()
             {
                 FlxTransitionableState.skipNextTransOut = true;
-                FlxG.switchState(new LoadingState(new PlayState(), true));
+                
             });
         }
         else
