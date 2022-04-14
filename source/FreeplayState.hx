@@ -204,7 +204,7 @@ class FreeplayState extends MusicBeatState
 
 				new FlxTimer().start(1.5, function(tmr:FlxTimer)
 				{
-					FlxG.switchState(new LoadingState(new PlayState(), true));
+					new PlayState(), true)
 				});
 			}
 		}
