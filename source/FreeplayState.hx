@@ -95,10 +95,6 @@ class FreeplayState extends MusicBeatState
 
 		changeSelection();
 		changeDiff();
-		
-                #if mobileC
-		addVirtualPad(FULL, A_B);
-		#end
 
 		super.create();
 	}
@@ -204,7 +200,7 @@ class FreeplayState extends MusicBeatState
 
 				new FlxTimer().start(1.5, function(tmr:FlxTimer)
 				{
-					new PlayState(), true)
+					FlxG.switchState(new LoadingState(new PlayState(), true));
 				});
 			}
 		}
