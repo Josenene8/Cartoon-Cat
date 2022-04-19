@@ -6,6 +6,7 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
 
 import openfl.utils.Assets;
@@ -15,6 +16,9 @@ import lime.utils.AssetManifest;
 
 import haxe.io.Path;
 
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
+
 class LoadingState extends MusicBeatState
 {
 	inline static var MIN_TIME = 1.0;
@@ -22,36 +26,39 @@ class LoadingState extends MusicBeatState
 	var target:FlxState;
 	var stopMusic = false;
 	var callbacks:MultiCallback;
+
+	var bg:FlxSprite;
+	var loadingText:FlxText;
+
+	var isLoading:Bool = true;
 	
-	var logo:FlxSprite;
-	var gfDance:FlxSprite;
-	var danceLeft = false;
-	
-	function new(target:FlxState, stopMusic:Bool)
+	public function new(target:FlxState, stopMusic:Bool)
 	{
 		super();
 		this.target = target;
 		this.stopMusic = stopMusic;
 	}
-	
+
 	override function create()
 	{
-		logo = new FlxSprite(-150, -100);
-		logo.frames = Paths.getSparrowAtlas('logoBumpin');
-		logo.antialiasing = true;
-		logo.animation.addByPrefix('bump', 'logo bumpin', 24);
-		logo.animation.play('bump');
-		logo.updateHitbox();
-		// logoBl.screenCenter();
-		// logoBl.color = FlxColor.BLACK;
+        bg = new FlxSprite().loadGraphic(Paths.image("loadingBG"));
+		bg.antialiasing = true;
+	    bg.scrollFactor.set();
+	    bg.active = false;
+		bg.setGraphicSize(FlxG.width, FlxG.height);
+		bg.updateHitbox();
 
-		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-		gfDance.antialiasing = true;
-		add(gfDance);
-		add(logo);
+		loadingText = new FlxText(0, FlxG.height - 65, 0, "Loading", 36);
+        loadingText.setFormat(Paths.font("vcr.ttf"), 36, FlxColor.WHITE);
+		loadingText.borderStyle = FlxTextBorderStyle.OUTLINE;
+		loadingText.borderSize = 2;
+		loadingText.borderColor = FlxColor.BLACK;
+        loadingText.screenCenter(X);
+
+		add(bg);
+		add(loadingText);
+
+		updateText();
 		
 		initSongsManifest().onComplete
 		(
@@ -63,10 +70,6 @@ class LoadingState extends MusicBeatState
 				if (PlayState.SONG.needsVoices)
 					checkLoadSong(getVocalPath());
 				checkLibrary("shared");
-				if (PlayState.storyWeek > 0)
-					checkLibrary("week" + PlayState.storyWeek);
-				else
-					checkLibrary("tutorial");
 				
 				var fadeTime = 0.5;
 				FlxG.camera.fade(FlxG.camera.bgColor, fadeTime, true);
@@ -104,22 +107,10 @@ class LoadingState extends MusicBeatState
 		}
 	}
 	
-	override function beatHit()
-	{
-		super.beatHit();
-		
-		logo.animation.play('bump');
-		danceLeft = !danceLeft;
-		
-		if (danceLeft)
-			gfDance.animation.play('danceRight');
-		else
-			gfDance.animation.play('danceLeft');
-	}
-	
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
 		#if debug
 		if (FlxG.keys.justPressed.SPACE)
 			trace('fired: ' + callbacks.getFired() + " unfired:" + callbacks.getUnfired());
@@ -128,10 +119,12 @@ class LoadingState extends MusicBeatState
 	
 	function onLoad()
 	{
+		isLoading = false;
+
 		if (stopMusic && FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 		
-		FlxG.switchState(target);
+		FlxG.switchState(getNextState(target, stopMusic));
 	}
 	
 	static function getSongPath()
@@ -150,8 +143,8 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static function getNextState(target:FlxState, stopMusic = false):FlxState
-	{
-		Paths.setCurrentLevel("week" + PlayState.storyWeek);
+	{	
+		Paths.setCurrentLevel("new");
 		#if NO_PRELOAD_ALL
 		var loaded = isSoundLoaded(getSongPath())
 			&& (!PlayState.SONG.needsVoices || isSoundLoaded(getVocalPath()))
@@ -250,6 +243,31 @@ class LoadingState extends MusicBeatState
 
 		return promise.future;
 	}
+
+	function updateText()
+    {
+		if (isLoading)
+		{
+			switch(loadingText.text)
+			{
+				case 'Loading':
+					loadingText.text = 'Loading.';
+				case 'Loading.':
+					loadingText.text = 'Loading..';
+				case 'Loading..':
+					loadingText.text = 'Loading...';
+				case 'Loading...':
+					loadingText.text = 'Loading';
+			}
+		}
+		else
+		{
+			loadingText.text = 'Done!';
+			loadingText.screenCenter(X);
+		}
+
+        new FlxTimer().start(0.1, function(tmr:FlxTimer){ updateText(); });
+    }
 }
 
 class MultiCallback
