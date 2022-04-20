@@ -21,6 +21,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import io.newgrounds.NG;
 import lime.app.Application;
 import openfl.Assets;
 
@@ -125,7 +126,7 @@ class TitleState extends MusicBeatState
 			transIn = FlxTransitionableState.defaultTransIn;
 			transOut = FlxTransitionableState.defaultTransOut;
 			
-			
+			playMusic('freakyMenu', 0);
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
 		}
 
@@ -146,7 +147,7 @@ class TitleState extends MusicBeatState
 		logoBl.setGraphicSize(Std.int(logoBl.width * 0.55));
 		logoBl.updateHitbox();
 
-		var cc:FlxSprite = new FlxSprite();
+		cc = new FlxSprite();
 		cc.frames = Paths.getSparrowAtlas('title/sussyCC');
 		cc.antialiasing = true;
 		cc.animation.addByPrefix('idle', 'animation', 24);
@@ -249,11 +250,11 @@ class TitleState extends MusicBeatState
 		if (pressedEnter && !transitioning && skippedIntro)
 		{
 			#if !switch
-	//		NGio.unlockMedal(60960);
+			NGio.unlockMedal(60960);
 
 			// If it's Friday according to da clock
 			if (Date.now().getDay() == 5)
-	//			NGio.unlockMedal(61034);
+				NGio.unlockMedal(61034);
 			#end
 
 			FlxG.camera.flash(FlxColor.WHITE, 2);
