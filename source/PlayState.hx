@@ -53,7 +53,6 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
-import ui.Mobilecontrols;
 
 #if windows
 import Discord.DiscordClient;
@@ -196,10 +195,6 @@ class PlayState extends MusicBeatState
 
 	public function addObject(object:FlxBasic) { add(object); }
 	public function removeObject(object:FlxBasic) { remove(object); }
-	
-	#if mobileC
-	var mcontrols:Mobilecontrols; 
-	#end
 
 	private static var deathReason:String;
 
@@ -475,31 +470,7 @@ class PlayState extends MusicBeatState
 			songPosBG.cameras = [camHUD];
 			songPosBar.cameras = [camHUD];
 		}
-		
-                #if mobileC
-			mcontrols = new Mobilecontrols();
-			switch (mcontrols.mode)
-			{
-				case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
-					controls.setVirtualPad(mcontrols._virtualPad, FULL, NONE);
-				case HITBOX:
-					controls.setHitBox(mcontrols._hitbox);
-				default:
-			}
-			trackedinputs = controls.trackedinputs;
-			controls.trackedinputs = [];
 
-			var camcontrol = new FlxCamera();
-			FlxG.cameras.add(camcontrol);
-			camcontrol.bgColor.alpha = 0;
-			mcontrols.cameras = [camcontrol];
-
-			mcontrols.visible = false;
-
-			add(mcontrols);
-		#end
-
-			
 		startingSong = true;
 		
 		if (isStoryMode)
@@ -530,13 +501,7 @@ class PlayState extends MusicBeatState
 	#end
 
 	function startCountdown():Void
-	{ 
-		
-		#if mobileC
-		mcontrols.visible = true;
-		#end
-			
-	
+	{
 		inCutscene = false;
 		camHUD.visible = true;
 
@@ -1489,7 +1454,7 @@ class PlayState extends MusicBeatState
 
 		if (offsetTesting)
 		{
-			
+			playMusic('freakyMenu');
 			offsetTesting = false;
 			LoadingState.loadAndSwitchState(new OptionsMenu());
 			FlxG.save.data.offset = offsetTest;
@@ -1504,7 +1469,7 @@ class PlayState extends MusicBeatState
 
 				if (storyPlaylist.length <= 0)
 				{
-					
+					playMusic('freakyMenu');
 
 					transIn = FlxTransitionableState.defaultTransIn;
 					transOut = FlxTransitionableState.defaultTransOut;
@@ -1521,7 +1486,7 @@ class PlayState extends MusicBeatState
 
 					if (SONG.validScore)
 					{
-//						NGio.unlockMedal(60961);
+						NGio.unlockMedal(60961);
 						Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 					}
 
@@ -1547,7 +1512,7 @@ class PlayState extends MusicBeatState
 					PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
 					FlxG.sound.music.stop();
 
-					FlxG.switchState(new (new (), false)
+					FlxG.switchState(new LoadingState(new PlayState(), false));
 				}
 			}
 			else
@@ -2407,16 +2372,16 @@ class PlayState extends MusicBeatState
 		bg.cameras = [camHUD];
 		add(bg);
 		
-		
+		var video:MP4Handler = new MP4Handler();
 
-		
+		video.playMP4(Paths.video(name));
 
 		new FlxTimer().start(1.2, function(tmr:FlxTimer)
 		{
 			remove(bg);
 		});
 
-		
+		video.finishCallback = function()
 		{
 			onComplete();
 		}
