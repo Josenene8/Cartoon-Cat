@@ -53,6 +53,7 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+import ui.Mobilecontrols;
 
 #if windows
 import Discord.DiscordClient;
@@ -175,6 +176,11 @@ class PlayState extends MusicBeatState
 	public static var theFunne:Bool = true;
 	var funneEffect:FlxSprite;
 	var inCutscene:Bool = false;
+	
+	#if mobileC
+	var mcontrols:Mobilecontrols; 
+	#end
+		
 	public static var repPresses:Int = 0;
 	public static var repReleases:Int = 0;
 
@@ -470,7 +476,31 @@ class PlayState extends MusicBeatState
 			songPosBG.cameras = [camHUD];
 			songPosBar.cameras = [camHUD];
 		}
+		
+                #if mobileC
+			mcontrols = new Mobilecontrols();
+			switch (mcontrols.mode)
+			{
+				case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
+					controls.setVirtualPad(mcontrols._virtualPad, FULL, NONE);
+				case HITBOX:
+					controls.setHitBox(mcontrols._hitbox);
+				default:
+			}
+			trackedinputs = controls.trackedinputs;
+			controls.trackedinputs = [];
 
+			var camcontrol = new FlxCamera();
+			FlxG.cameras.add(camcontrol);
+			camcontrol.bgColor.alpha = 0;
+			mcontrols.cameras = [camcontrol];
+
+			mcontrols.visible = false;
+
+			add(mcontrols);
+		#end
+			
+			
 		startingSong = true;
 		
 		if (isStoryMode)
@@ -501,7 +531,12 @@ class PlayState extends MusicBeatState
 	#end
 
 	function startCountdown():Void
-	{
+	{     
+		#if mobileC
+		mcontrols.visible = true;
+		#end
+			
+			
 		inCutscene = false;
 		camHUD.visible = true;
 
