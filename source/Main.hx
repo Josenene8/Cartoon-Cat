@@ -76,7 +76,7 @@ class Main extends Sprite
 		#end
 
 		#if html5
-		initialState = PiracyState;
+	//	initialState = PiracyState;
 		#else
 		#if cpp
 	//	initialState = Caching;
